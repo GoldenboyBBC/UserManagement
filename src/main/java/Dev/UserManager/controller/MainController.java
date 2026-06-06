@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 
-import java.util.List;
-
 import Dev.UserManager.service.UserService;
-import Dev.UserManager.model.User;
 
 @Controller
 public class MainController
@@ -41,11 +38,11 @@ public class MainController
     }
 
     @GetMapping("/users")
-    public List<User> users(Model model)
+    public String users(Model model)
     {
         model.addAttribute("users", u.getUsers());
 
-        return u.getUsers();
+        return "users";
     }
 
     @PostMapping("/register")
