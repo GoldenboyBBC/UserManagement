@@ -1,4 +1,4 @@
-package Dev.UserManager;
+package Dev.UserManager.model;
 
 public class User 
 {

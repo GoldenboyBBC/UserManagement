@@ -1,9 +1,10 @@
-package Dev.UserManager;
+package Dev.UserManager.repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import Dev.UserManager.model.User;
 
 @Repository
 public class UserRepository
