@@ -17,15 +17,15 @@ public class UserService
         this.repo = repo;
     }
 
-    public boolean register(String username, String password)
+    public User register(String username, String password)
     {
         User found = repo.FindByUsername(username);
 
-        if (found != null) return false;
+        if (found != null) return found;
 
         repo.save(new User(username, password));
 
-        return true;
+        return null;
     }
 
     public List<User> getUsers()

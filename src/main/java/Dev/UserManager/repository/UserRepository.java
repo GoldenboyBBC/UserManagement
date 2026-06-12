@@ -18,7 +18,11 @@ public class UserRepository
 
     public User FindByUsername(String Username)
     {
-        return users.stream().filter(u -> u.getUsername().equals(Username)).findFirst().orElse(null);
+        return users.stream().filter(u ->
+             u.getUsername().toLowerCase()
+             .equals(Username.toLowerCase())).
+             findFirst().
+             orElse(null);
     }
 
     public void save(User user)

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import Dev.UserManager.service.UserService;
+import Dev.UserManager.model.User;
 
 @Controller
 public class MainController
@@ -49,11 +50,11 @@ public class MainController
     @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password, Model model)
     {   
-        boolean found = u.register(username, password);
+        User found = u.register(username, password);
         
-        if (!found)
+        if (found != null)
         {
-            model.addAttribute("error", String.format("\"%s\" already exists, please choose another one.", username));
+            model.addAttribute("error", String.format("\"%s\" already exists, please choose another one.", found.getUsername()));
             return "register";
         }
 
