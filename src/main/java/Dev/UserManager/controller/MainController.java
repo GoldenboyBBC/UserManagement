@@ -20,8 +20,9 @@ public class MainController
     }
 
     @GetMapping("/")
-    public String HomeURL()
+    public String HomeURL(Model model)
     {
+        model.addAttribute("users", u.getUsers());
         return "home";
     }
 
@@ -56,7 +57,7 @@ public class MainController
             return "register";
         }
 
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @PostMapping("/login")
