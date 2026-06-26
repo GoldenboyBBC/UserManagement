@@ -1,5 +1,7 @@
-package Dev.UserManager.controller;
+package dev.usermanager.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -7,12 +9,14 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 
-import Dev.UserManager.service.UserService;
-import Dev.UserManager.model.User;
+import dev.usermanager.service.UserService;
+import dev.usermanager.model.User;
+import java.util.Optional;
 
 @Controller
 public class MainController
 {
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final UserService u;
 
     public MainController(UserService u)
@@ -40,21 +44,19 @@ public class MainController
     }
 
     @GetMapping("/users")
-    public String users(Model model)
+    public String users()
     {
-        model.addAttribute("users", u.getUsers());
-
-        return "users";
+        return "redirect:/";
     }
 
     @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password, Model model)
     {   
-        User found = u.register(username, password);
+        Optional<User> found = u.register(username, password);
         
-        if (found != null)
+        if (found.isPresent())
         {
-            model.addAttribute("error", String.format("\"%s\" already exists, please choose another one.", found.getUsername()));
+            model.addAttribute("error", String.format("\"%s\" already exists, please choose another one.", found.get().getUsername()));
             return "register";
         }
 
@@ -69,11 +71,11 @@ public class MainController
         if (error != null)
         {
             model.addAttribute("error", error);
-            System.out.println(String.format("Login attempt: User --> '%s' Password --> '%s' Status --> Failed", username, password));
+            logger.warn("Login attempt failed for user: {}", username);
             return "login";
         }
 
-        System.out.println(String.format("Login attempt: User --> '%s' Password --> '%s' Status --> Success", username, password));
+        logger.info("Login attempt successful for user: {}", username);
         return "redirect:/";
     }
 }

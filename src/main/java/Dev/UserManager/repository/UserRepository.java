@@ -1,14 +1,18 @@
-package Dev.UserManager.repository;
+package dev.usermanager.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import Dev.UserManager.model.User;
+import dev.usermanager.model.User;
 
 @Repository
 public class UserRepository
 {
+    private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
     private final List<User> users = new ArrayList<>();
 
     public List<User> findAll()
@@ -16,18 +20,17 @@ public class UserRepository
         return users;
     }
 
-    public User FindByUsername(String Username)
+    public Optional<User> findByUsername(String Username)
     {
         return users.stream().filter(u ->
              u.getUsername().toLowerCase()
              .equals(Username.toLowerCase())).
-             findFirst().
-             orElse(null);
+             findFirst();
     }
 
     public void save(User user)
     {
         users.add(user);
-        System.out.println(String.format("Registered User: User -- > '%s' Password --> '%s' Status --> Success", user.getUsername(), user.getPassword()));
+        logger.info("Registered User: User --> '{}' Password --> '{}' Status --> Success", user.getUsername(), user.getPassword());
     }
 }

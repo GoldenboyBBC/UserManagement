@@ -1,11 +1,12 @@
-package Dev.UserManager.service;
+package dev.usermanager.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import Dev.UserManager.repository.UserRepository;
-import Dev.UserManager.model.User;
+import dev.usermanager.repository.UserRepository;
+import dev.usermanager.model.User;
 
 @Service
 public class UserService
@@ -17,15 +18,17 @@ public class UserService
         this.repo = repo;
     }
 
-    public User register(String username, String password)
+    public Optional<User> register(String username, String password)
     {
-        User found = repo.FindByUsername(username);
+        Optional<User> found = repo.findByUsername(username);
 
-        if (found != null) return found;
+        if (found.isPresent()) {
+            return found;
+        }
 
         repo.save(new User(username, password));
 
-        return null;
+        return Optional.empty();
     }
 
     public List<User> getUsers()
@@ -35,13 +38,17 @@ public class UserService
 
     public String LoginUser(String username, String password)
     {
-        User user = repo.FindByUsername(username);
+        Optional<User> userOptional = repo.findByUsername(username);
 
-        if (user == null)
+        if (!userOptional.isPresent()) {
             return "Username doesn't exists";
+        }
 
-         if (!user.getPassword().equals(password))
+        User user = userOptional.get();
+
+         if (!user.getPassword().equals(password)) {
             return "Password doesn't match the username";
+        }
 
         return null;
     }
