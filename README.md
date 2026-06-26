@@ -67,8 +67,4 @@ To execute the unit and integration tests, use the following command:
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions for improvements or new features, please feel free to open an issue or submit a pull request.
-
-## License
-
-This project is open-sourced under the MIT License. See the `LICENSE` file for more details.
+Contributions are welcome! If you have suggestions for improvements or new features, please feel free to DM me on Discord: *Goldenboyi*
